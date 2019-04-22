@@ -15,6 +15,14 @@
     <header>
         <nav id="navbar">
             <h1>Memoize Match</h1>
+            <div id="timer">
+                <span>0</span>
+                sec.
+            </div>
+            <div id="attempts">
+                <span>0</span>
+                card flips
+            </div>
             <div id="lives">
             </div>
         </nav>
@@ -22,7 +30,31 @@
     <main class="memoize-board">
         <div class="container cards">
         </div>
+        <div id="open-modal" class="modal-window">
+            <div>
+                <h1>Congratulations, You Won!</h1>
+                <ul>
+                    <li id="resultsStars">
+                        Stars: <span></span>
+                    </li>
+                    <li id="resultsAttempts">
+                        Cards Flipped: <span></span> times
+                    </li>
+                    <li id="resultsTime">
+                        Time: <span></span> sec.
+                    </li>
+                </ul>
+                <div>
+                    Would you like to play again?
+                </div>
+                <button onclick="window.location.reload()">Yes</button>
+                <button onclick="window.open('','_self').close()">No</button>
+            </div>
+        </div>
     </main>
+    <footer>
+        <button onclick="window.location.reload()">Panic Button!</button>
+    </footer>
     <audio id="gameAudio" autoplay loop>
         <source id="gameAudioSrc" src="audio/game_audio_edit.mp3" type="audio/mp3">
     </audio>

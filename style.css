@@ -2,7 +2,7 @@ html,
 body {
     text-align: center;
     font-family: 'Press Start 2P', cursive;
-    text-shadow: 6px 4px #000, 7px 6px #000, 6px -1px #000;
+    text-shadow: 4px 1px #000, 5px 2px #000, 2px 2px #000;
     color: #fff;
 }
 
@@ -32,6 +32,11 @@ header #navbar #lives {
     justify-content: right;
     display: flex;
     margin: auto 16px auto auto;
+}
+
+header #navbar #timer,
+header #navbar #attempts {
+    margin: auto;
 }
 
 header #lives div {
@@ -79,6 +84,45 @@ main.memoize-board .container.cards .row .card .card-face {
 main.memoize-board .container.cards .row .card.active {
     transform: rotateY(180deg);
     pointer-events: none;
+}
+
+.modal-window {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.25);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.modal-window:target {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-window>div {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: #000;
+}
+
+.modal-window header {
+    font-weight: bold;
+}
+
+.modal-window h1 {
+    font-size: 150%;
+    margin: 0 0 15px;
 }
 
 /* Correct animation */

@@ -1,11 +1,3 @@
-const cardsToLives = Object.freeze({
-    4: 1,
-    8: 2,
-    12: 3,
-    16: 4,
-    20: 5
-});
-
 const spriteImages = Object.freeze({
     HEART: 'heart',
     MOON: 'moon',
@@ -64,62 +56,13 @@ const spriteImages = Object.freeze({
 
 let state = {
     chances: 3,
+    time: 0,
     numberOfCards: 0,
+    numberOfMoves: 0,
     firstPick: null,
     firstActiveCard: null,
     secondActiveCard: null,
 };
-
-window.addEventListener('DOMContentLoaded', () => {
-    window.onscroll = () => makeNavSticky();
-
-    setTheBoard();
-    letTheGameBegin();
-});
-
-const makeNavSticky = () => {
-    const $navbar = document.querySelector('#navbar');
-    const sticky = $navbar.offsetTop;
-
-    if (window.pageYOffset > sticky) {
-        $navbar.classList.add('sticky');
-    } else {
-        $navbar.classList.remove('sticky');
-    }
-}
-
-const correctChoiceAudio = () => {
-    const $audio = document.querySelector('#correctChoice');
-    $audio.play();
-}
-
-const incorrectChoiceAudio = () => {
-    const $audio = document.querySelector('#incorrectChoice');
-    $audio.play();
-}
-
-const winnerAudio = () => {
-    const $gameAudio = document.querySelector("#gameAudio");
-    const $gameOverAudio = document.querySelector("#gameOverAudio");
-
-    $gameAudio.pause();
-    $gameOverAudio.src = "audio/winner.mp3";
-    $gameOverAudio.play();
-}
-
-const gameOverAudio = () => {
-    const $gameAudio = document.querySelector("#gameAudio");
-    const $gameOverAudio = document.querySelector("#gameOverAudio");
-
-    $gameAudio.pause();
-    $gameOverAudio.src = "audio/game_over.mp3";
-    $gameOverAudio.play();
-}
-
-const gameAudio = () => {
-    const $gameAudio = document.querySelector("#gameAudio");
-    $gameAudio.play();
-}
 
 // Sets cards and player lives
 const setTheBoard = () => {
@@ -131,7 +74,6 @@ const setTheBoard = () => {
     }
 
     state.numberOfCards = numberOfCards;
-    state.chances = cardsToLives[numberOfCards];
 
     // Reset Board
     let $cardRows = document.querySelectorAll('.memoize-board .container.cards .row');
@@ -224,11 +166,8 @@ const setPlayersLives = () => {
 // Starts Game
 const letTheGameBegin = () => {
     const $gameCards = document.querySelectorAll('.container.cards .row .card');
-    let {
-        numberOfCards
-    } = state;
 
-    $gameCards.forEach(($card, index) => {
+    $gameCards.forEach(($card) => {
         $card.addEventListener('click', (e) => {
             let $frontCard = $card.children[0];
             let $sprite = $frontCard.children[0].classList[1];
@@ -239,12 +178,23 @@ const letTheGameBegin = () => {
                 deckCheck($frontCard, $sprite);
             }
 
+            const $attempts = document.querySelector('#navbar #attempts span');
+            state.numberOfMoves += 1;
+            $attempts.innerHTML = state.numberOfMoves;
+
             e.stopImmediatePropagation();
         })
-        numberOfCards = index;
     })
 
-    state.numberOfCards = numberOfCards + 1;
+    setInterval(() => {
+        const {
+            numberOfCards
+        } = state;
+        const numberOfCorrectCards = document.querySelectorAll('.card.correct').length;
+        if (numberOfCards !== numberOfCorrectCards) {
+            ticks();
+        }
+    }, 1000);
 }
 
 // Check if player has selected two cards
@@ -261,14 +211,13 @@ const deckCheck = (cardPosition, cardFace) => {
     } else {
         state.secondActiveCard = cardPosition.parentNode;
         checkMatch(cardFace);
-        setTimeout(() => resetState(), 850);
+        setTimeout(() => resetState(), 650);
     }
 }
 
 // Check if cards are a match
 const checkMatch = (playerPick) => {
     let {
-        chances,
         firstPick,
         firstActiveCard,
         secondActiveCard
@@ -281,10 +230,7 @@ const checkMatch = (playerPick) => {
         secondActiveCard.classList.add('correct');
         correctChoiceAudio();
     } else {
-        $playerLives[0].classList.add('lose-life');
-        state.chances = chances - 1;
-        setTimeout(() => $playerLives[0].remove(), 1250);
-        incorrectChoiceAudio();
+        incorrectChoice($playerLives[0]);
     }
 
     setTimeout(() => checkVictory(), 1250);
@@ -305,8 +251,10 @@ const resetState = () => {
 
 const checkVictory = () => {
     const {
+        numberOfMoves,
         numberOfCards,
-        chances
+        chances,
+        time
     } = state;
     const numberOfCorrectCards = document.querySelectorAll('.card.correct').length;
 
@@ -314,21 +262,15 @@ const checkVictory = () => {
         winnerAudio();
 
         setTimeout(() => {
-            if (confirm('Congratulations, you won!\n Would you like to play again?')) {
-                window.location.reload();
-            } else {
-                window.close();
-            }
-        }, 500);
-    } else if (chances === 0) {
-        gameOverAudio();
+            const $resultTime = document.querySelector('#resultsTime span');
+            const $resultStars = document.querySelector('#resultsStars span');
+            const $resultAttempts = document.querySelector('#resultsAttempts span');
 
-        setTimeout(() => {
-            if (confirm('Too bad!\n Would you like to play again?')) {
-                resetGame();
-            } else {
-                window.close();
-            }
+            $resultTime.innerHTML = time;
+            $resultStars.innerHTML = chances;
+            $resultAttempts.innerHTML = numberOfMoves;
+
+            window.location.hash += 'open-modal';
         }, 500);
     }
 }
@@ -336,6 +278,7 @@ const checkVictory = () => {
 const resetGame = () => {
     state.chances = 3;
     state.numberOfCards = 0;
+    state.numberOfMoves = 0;
     state.firstPick = null;
     state.firstActiveCard = null;
     state.secondActiveCard = null;
@@ -347,4 +290,75 @@ const resetGame = () => {
 
     setTheBoard();
     letTheGameBegin();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    window.onscroll = () => makeNavSticky();
+
+    setTheBoard();
+    letTheGameBegin();
+});
+
+const makeNavSticky = () => {
+    const $navbar = document.querySelector('#navbar');
+    const sticky = $navbar.offsetTop;
+
+    if (window.pageYOffset > sticky) {
+        $navbar.classList.add('sticky');
+    } else {
+        $navbar.classList.remove('sticky');
+    }
+}
+
+const correctChoiceAudio = () => {
+    const $audio = document.querySelector('#correctChoice');
+    $audio.play();
+}
+
+const incorrectChoiceAudio = () => {
+    const $audio = document.querySelector('#incorrectChoice');
+    $audio.play();
+}
+
+const winnerAudio = () => {
+    const $gameAudio = document.querySelector("#gameAudio");
+    const $gameOverAudio = document.querySelector("#gameOverAudio");
+
+    $gameAudio.pause();
+    $gameOverAudio.src = "audio/winner.mp3";
+    $gameOverAudio.play();
+}
+
+const gameOverAudio = () => {
+    const $gameAudio = document.querySelector("#gameAudio");
+    const $gameOverAudio = document.querySelector("#gameOverAudio");
+
+    $gameAudio.pause();
+    $gameOverAudio.src = "audio/game_over.mp3";
+    $gameOverAudio.play();
+}
+
+const gameAudio = () => {
+    const $gameAudio = document.querySelector("#gameAudio");
+    $gameAudio.play();
+}
+
+const incorrectChoice = ($playerLives) => {
+    let {
+        numberOfCards,
+        numberOfMoves
+    } = state;
+    let remainder = Math.sqrt(numberOfCards) / 2;
+    if (numberOfMoves === Math.floor(remainder * 1) || numberOfMoves === Math.floor(remainder * 5) || numberOfMoves === Math.floor(remainder * 7)) {
+        $playerLives.classList.add('lose-life');
+        state.chances = state.chances - 1;
+        setTimeout(() => $playerLives.remove(), 1250);
+    }
+    incorrectChoiceAudio();
+}
+
+const ticks = () => {
+    const $timer = document.querySelector('#navbar #timer span');
+    state.time += 1
+    $timer.innerHTML = state.time;
 }
