@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Memoize Game</title>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav id="navbar">
+            <h1>Memoize Match</h1>
+            <div id="lives">
+            </div>
+        </nav>
+    </header>
+    <main class="memoize-board">
+        <div class="container cards">
+        </div>
+    </main>
+    <audio id="gameAudio" autoplay loop>
+        <source id="gameAudioSrc" src="audio/game_audio_edit.mp3" type="audio/mp3">
+    </audio>
+    <audio id="correctChoice" src="audio/correctChoice.mp3"></audio>
+    <audio id="incorrectChoice" src="audio/incorrectChoice.mp3"></audio>
+    <audio id="gameOverAudio" src=""></audio>
+    <script src="app.js"></script>
+</body>
+
+</html>

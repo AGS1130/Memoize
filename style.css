@@ -1,0 +1,485 @@
+html,
+body {
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    text-shadow: 6px 4px #000, 7px 6px #000, 6px -1px #000;
+    color: #fff;
+}
+
+header #navbar {
+    display: flex;
+    background: #93ece8;
+    padding: 8px 0px;
+}
+
+header #navbar.sticky {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+}
+
+header #navbar.sticky+main {
+    padding-top: 60px;
+
+}
+
+header #navbar h1 {
+    letter-spacing: 3px;
+    margin: auto auto auto 16px;
+}
+
+header #navbar #lives {
+    justify-content: right;
+    display: flex;
+    margin: auto 16px auto auto;
+}
+
+header #lives div {
+    margin: 0px 4px;
+}
+
+main.memoize-board {
+    background: #000;
+    border: 16px solid;
+    border-image: repeating-linear-gradient(120deg, #ff0000, #fff, #ff0000 8px) 16;
+    border-radius: 6px;
+}
+
+main.memoize-board .container.cards {
+    margin: 24px;
+    padding: 24px;
+}
+
+main.memoize-board .container.cards .row {
+    margin: 48px 0px;
+    display: flex;
+}
+
+main.memoize-board .container.cards .row .card {
+    background-image: url(items_sprites.png);
+    background-position: -903px -268px;
+    background-size: 4050px 2500px;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    position: relative;
+    margin: 0px 40px;
+    cursor: pointer;
+    height: 240px;
+    width: 240px;
+}
+
+main.memoize-board .container.cards .row .card .card-face {
+    backface-visibility: hidden;
+    border-radius: 6px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+main.memoize-board .container.cards .row .card.active {
+    transform: rotateY(180deg);
+    pointer-events: none;
+}
+
+/* Correct animation */
+
+main.memoize-board .container.cards .row .card.correct {
+    /* animation: victory 1.2s linear 1; */
+    transform: rotateY(180deg);
+    pointer-events: none;
+}
+
+/* Incorrect Animation */
+
+/* main.memoize-board .container.cards .row .card.incorrect {
+    animation: defeat 1.2s linear 1;
+    transform: rotateY(90deg);
+    pointer-events: none;
+} */
+
+main.memoize-board .container.cards .row .card .card-front {
+    transform: rotateY(180deg);
+    background: #d2645f;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #f0a07d, #e99174, #e2826c, #da7365, #d2645f);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #f0a07d, #e99174, #e2826c, #da7365, #d2645f);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    background: #000;
+    padding: 72px;
+}
+
+.lose-life {
+    animation: lose-life 1.2s linear 1;
+}
+
+/* Animations */
+
+@keyframes lose-life {
+
+    from,
+    50%,
+    to {
+        opacity: 1;
+    }
+
+    25%,
+    75% {
+        opacity: 0;
+    }
+}
+
+@keyframes victory {
+    0% {
+        transform: rotate(3deg);
+    }
+
+    25% {
+        transform: rotate(-3deg);
+    }
+
+    50% {
+        transform: scale(1.2);
+        transform: rotate(3deg);
+    }
+
+    75% {
+        transform: rotate(-3deg);
+    }
+
+    100% {
+        transform: rotate(3deg);
+    }
+}
+
+@keyframes defeat {
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Sprites */
+
+.sprite-img {
+    background-image: url(items_sprites.png);
+    background-repeat: no-repeat;
+}
+
+.sprite-img.heart {
+    height: 64px;
+    width: 64px;
+    background-position: -79px -61px;
+}
+
+.sprite-img.moon {
+    height: 64px;
+    width: 64px;
+    background-position: -83px -129px;
+}
+
+.sprite-img.acorn {
+    width: 64px;
+    height: 76px;
+    background-position: -79px -201px;
+}
+
+.sprite-img.bell {
+    width: 64px;
+    height: 64px;
+    background-position: -79px -285px;
+}
+
+.sprite-img.golden-mushroom {
+    width: 64px;
+    height: 64px;
+    background-position: -79px -357px;
+}
+
+.sprite-img.blue-mushroom {
+    width: 64px;
+    height: 60px;
+    background-position: -91px -445px;
+}
+
+.sprite-img.face-block {
+    width: 64px;
+    height: 64px;
+    background-position: -151px -65px;
+}
+
+.sprite-img.leaf-1 {
+    width: 60px;
+    height: 64px;
+    background-position: -151px -141px;
+}
+
+.sprite-img.golden-flower {
+    width: 64px;
+    height: 64px;
+    background-position: -151px -213px;
+}
+
+.sprite-img.frog {
+    width: 64px;
+    height: 64px;
+    background-position: -151px -285px;
+}
+
+.sprite-img.life-mushroom {
+    width: 64px;
+    height: 64px;
+    background-position: -151px -357px;
+}
+
+.sprite-img.giant-mushroom {
+    width: 88px;
+    height: 68px;
+    background-position: -163px -437px;
+}
+
+.sprite-img.mystery-block {
+    width: 64px;
+    height: 64px;
+    background-position: -223px -65px;
+}
+
+.sprite-img.leaf-2 {
+    width: 64px;
+    height: 56px;
+    background-position: -223px -149px;
+}
+
+.sprite-img.fire-flower {
+    width: 64px;
+    height: 64px;
+    background-position: -223px -213px;
+}
+
+.sprite-img.tanooki {
+    width: 64px;
+    height: 64px;
+    background-position: -223px -285px;
+}
+
+.sprite-img.power-mushroom {
+    width: 64px;
+    height: 64px;
+    background-position: -223px -357px;
+}
+
+.sprite-img.helicopter-mushroom {
+    width: 64px;
+    height: 76px;
+    background-position: -259px -429px;
+}
+
+.sprite-img.blank-block {
+    width: 64px;
+    height: 76px;
+    background-position: -295px -53px;
+}
+
+.sprite-img.feather {
+    width: 64px;
+    height: 64px;
+    background-position: -295px -141px;
+}
+
+.sprite-img.ice-flower {
+    width: 64px;
+    height: 64px;
+    background-position: -295px -213px;
+}
+
+.sprite-img.hammer-bro {
+    width: 56px;
+    height: 64px;
+    background-position: -299px -285px;
+}
+
+.sprite-img.poison-mushroom {
+    width: 64px;
+    height: 64px;
+    background-position: -295px -357px;
+}
+
+.sprite-img.bowser-mushroom {
+    width: 88px;
+    height: 68px;
+    background-position: -331px -437px;
+}
+
+.sprite-img.ring-block {
+    width: 64px;
+    height: 64px;
+    background-position: -367px -65px;
+}
+
+.sprite-img.carrot {
+    width: 64px;
+    height: 64px;
+    background-position: -367px -65px;
+}
+
+.sprite-img.double-flower {
+    width: 64px;
+    height: 64px;
+    background-position: -367px -65px;
+}
+
+.sprite-img.penguin {
+    width: 56px;
+    height: 64px;
+    background-position: -371px -285px;
+}
+
+.sprite-img.honey-mushroom {
+    width: 64px;
+    height: 64px;
+    background-position: -367px -357px;
+}
+
+.sprite-img.cannon-block {
+    width: 64px;
+    height: 64px;
+    background-position: -439px -65px;
+}
+
+.sprite-img.p-wing {
+    width: 56px;
+    height: 64px;
+    background-position: -447px -137px;
+}
+
+.sprite-img.cloud-flower {
+    width: 64px;
+    height: 68px;
+    background-position: -439px -209px;
+}
+
+.sprite-img.shoe {
+    width: 64px;
+    height: 64px;
+    background-position: -439px -285px;
+}
+
+.sprite-img.boo-mushroom {
+    width: 64px;
+    height: 64px;
+    background-position: -439px -357px;
+}
+
+.sprite-img.green-star {
+    width: 64px;
+    height: 64px;
+    background-position: -439px -429px;
+}
+
+.sprite-img.purple-star {
+    width: 64px;
+    height: 64px;
+    background-position: -439px -501px;
+}
+
+.sprite-img.red-pow {
+    width: 64px;
+    height: 64px;
+    background-position: -511px -65px;
+}
+
+.sprite-img.balloon {
+    width: 64px;
+    height: 64px;
+    background-position: -511px -137px;
+}
+
+.sprite-img.boomerang-flower {
+    width: 64px;
+    height: 64px;
+    background-position: -511px -213px;
+}
+
+.sprite-img.blue-shell {
+    width: 64px;
+    height: 64px;
+    background-position: -511px -285px;
+}
+
+.sprite-img.brick-mushroom {
+    width: 64px;
+    height: 64px;
+    background-position: -511px -357px;
+}
+
+.sprite-img.power-star {
+    width: 64px;
+    height: 64px;
+    background-position: -511px -429px;
+}
+
+.sprite-img.dark-star {
+    width: 64px;
+    height: 64px;
+    background-position: -511px -501px;
+}
+
+.sprite-img.blue-pow {
+    width: 64px;
+    height: 64px;
+    background-position: -583px -65px;
+}
+
+.sprite-img.cherries {
+    width: 64px;
+    height: 68px;
+    background-position: -583px -209px;
+}
+
+.sprite-img.jingle-bell {
+    width: 64px;
+    height: 64px;
+    background-position: -583px -285px;
+}
+
+.sprite-img.spring-mushroom {
+    width: 64px;
+    height: 64px;
+    background-position: -583px -357px;
+}
+
+.sprite-img.red-star {
+    width: 64px;
+    height: 64px;
+    background-position: -583px -357px;
+}
+
+.sprite-img.rainbow-star {
+    width: 64px;
+    height: 64px;
+    background-position: -583px -501px;
+}
+
+.sprite-img.axe {
+    width: 64px;
+    height: 64px;
+    background-position: -655px -137px;
+}
+
+.sprite-img.anchor {
+    width: 72px;
+    height: 64px;
+    background-position: -723px -137px;
+}
+
+.sprite-img.a-coin {
+    width: 64px;
+    height: 100px;
+    background-position: -799px -209px;
+}
