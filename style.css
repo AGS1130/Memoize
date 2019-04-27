@@ -95,10 +95,10 @@ main.memoize-board .container.cards .row .card.active {
     left: 0;
     z-index: 999;
     opacity: 0;
-    pointer-events: none;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
+    display: none;
 }
 
 .modal-window:target {

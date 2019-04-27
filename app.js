@@ -270,7 +270,9 @@ const checkVictory = () => {
             $resultStars.innerHTML = chances;
             $resultAttempts.innerHTML = numberOfMoves;
 
-            window.location.hash += 'open-modal';
+            const $modal = document.querySelector('#openModal');
+            $modal.style.display = "block";
+            $modal.style.opacity = "1";
         }, 500);
     }
 }
